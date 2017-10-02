@@ -5,14 +5,14 @@ from sensor_msgs.msg import Range
 from random import random
 
 def get_distance():
-    return random()
+    return random()+0.49
 
 def publish():
     while not rospy.is_shutdown():
         pub = rospy.Publisher("distance", Range, queue_size=10)
         rospy.init_node("ultrasonic", anonymous=True)
 
-        rate = rospy.Rate(10) #10Hz
+        rate = rospy.Rate(2) #10Hz
         msg = Range(radiation_type = 0)
         ## ULTRASOUND = 0
         ## IR = 1

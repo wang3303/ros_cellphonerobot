@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-from beginner_tutorials.msg import Sensors
+from ros_cellphonerobot.msg import Sensors
 from sensor_msgs.msg import Range
 
 def cb(msg):
