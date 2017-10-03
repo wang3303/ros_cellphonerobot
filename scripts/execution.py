@@ -7,7 +7,7 @@ import time
 from std_msgs.msg import String
 from ros_cellphonerobot.msg import Sensors
 from std_msgs.msg import Int8
-mindistance = 0.8
+
 
 # uint8 PENDING=0
 # uint8 ACTIVE=1
@@ -21,13 +21,14 @@ mindistance = 0.8
 # uint8 LOST=9
 
 state = 1
+
 def actioncb(msg):
     global state
     pub.publish(0)# busy
     state = 0
     act_client.wait_for_server()
     rospy.loginfo('Find exe server')
-    goal = ExecutionGoal(time_to_wait=rospy.Duration.from_sec(3))
+    goal = ExecutionGoal(time_to_wait=default_exe_time)
     goal.action = str(msg.data)
     act_client.send_goal(goal, feedback_cb=feedback_cb)
     # time.sleep(2)
@@ -47,12 +48,16 @@ def abort(msg):
             act_client.cancel_goal()
             rospy.loginfo('Range alert')
             state = 1
+            pub.publish(1)  # free
 
 
 
 if __name__ == '__main__':
     try:
         rospy.init_node('execution')
+        mindistance =rospy.get_param('~alert_distance')
+        # Set default time
+        default_exe_time = rospy.Duration.from_sec(rospy.get_param('~exe_time'))
         act_client = actionlib.SimpleActionClient('robot', ExecutionAction)
         rospy.Subscriber('action', String, actioncb)
         rospy.Subscriber('sensor_reading', Sensors, abort)

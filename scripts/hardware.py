@@ -47,7 +47,7 @@ class DCmotor:
 		GPIO.cleanup([self._INA2,self._INA1,self._EN])
 		
 class Ultrasonic():
-	def __init__(self,max_distance=1, threshold_distance =0.01, echo=17, trigger=18):
+	def __init__(self,max_distance=3, threshold_distance =0.01, echo=17, trigger=18):
 		self._echo = echo
 		self._trigger = trigger
 		self.ultrasonic = DistanceSensor(
@@ -58,7 +58,7 @@ class Ultrasonic():
 							)
 	
 	def request_distance(self):
-		# self.ultrasonic.wait_for_in_range()
+		self.ultrasonic.wait_for_out_of_range(timeout = 1)
 		return self.ultrasonic.distance
 		
 class Servo():
@@ -75,21 +75,22 @@ class Servo():
 		self.servo = -90
 	
 def main():
-	# sensor = Ultrasonic()
-	# i = 0
-	# while i < 100:
-	# 	time.sleep(1)
-	# 	print sensor.request_distance()*100
-	# 	i+=1
-	# GPIO.cleanup()
-	motor = DCmotor(3,4,2)
-	motor.reverse(0,1)
-	motor.close_channel()
-	try:
-		while 1:
-			pass
-	except:
-		GPIO.cleanup()
+	sensor = Ultrasonic()
+	i = 0
+	while i < 100:
+		time.sleep(1)
+		print sensor.request_distance()*100
+		i+=1
+	GPIO.cleanup()
+	# motor = DCmotor(3,4,2)
+	# motor.reverse(0,1)
+	# motor.close_channel()
+	# try:
+	# 	while 1:
+	# 		pass
+	# except:
+	# 	GPIO.cleanup()
+
 if __name__ == '__main__':
 	main()
 	

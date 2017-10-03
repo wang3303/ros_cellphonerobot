@@ -10,12 +10,19 @@ class Execution(object):
     _feedback = ExecutionFeedback()
     _result = ExecutionResult()
     t0 = time.time()
-    motor_l = DCmotor(3,4,2) 
-    motor_r = DCmotor(17,27,22)
+    motor = rospy.get_param("/execution/motor")
+    # TODO This is based on the assumption that there are two wheels
+    motor_l_pin = rospy.get_param('/execution/'+motor[0])
+    motor_r_pin = rospy.get_param('/execution/'+motor[1])
+    motor_l = DCmotor(motor_l_pin[0],motor_l_pin[1],motor_l_pin[2])
+    motor_r = DCmotor(motor_r_pin[0],motor_r_pin[1],motor_r_pin[2])
+        
 
     def forward(self,):
         self.motor_l.forward(20)
         self.motor_r.forward(20)
+        rospy.loginfo('set dutycycle of +20 for both motors')
+
     def stop(self,):
         self.motor_l.close_channel()
         self.motor_r.close_channel()
@@ -32,12 +39,17 @@ class Execution(object):
         self.actionname = name
         self.act_server = actionlib.SimpleActionServer('robot', ExecutionAction, execute_cb = self.cb, auto_start = False)
         self.act_server.start()
-        self.actiondic = {
-            'w': self.forward,
-            's': self.stop,
-            'a': self.left,
-            'd': self.right
+        self.actiondic = rospy.get_param("/execution/actiondic")
+        self.functiondic = {
+            'forward': self.forward,
+            'stop': self.stop,
+            'left': self.left,
+            'right': self.right
         }
+        for k, v in self.actiondic.iteritems():
+            self.actiondic[k] = self.functiondic[v]
+        rospy.loginfo(self.actiondic)
+        rospy.loginfo('set pin number for motors'+str(self.motor_l_pin)+str(self.motor_r_pin))
 
     def cb(self, goal):
         self.t0 = time.time()
@@ -71,6 +83,9 @@ class Execution(object):
 if __name__ == '__main__':
     try:
         rospy.init_node('exe_server')
+
+
+        
         server = Execution(rospy.get_name())
         rospy.spin()
     except rospy.ROSInterruptException:

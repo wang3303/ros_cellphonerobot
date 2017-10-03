@@ -1,0 +1,10 @@
+actiondic: {w: forward, s: stop, a: left, d: right}
+# {event name(published): function,...} 
+alert_distance: 20
+# motors
+motor: [motor_l, motor_r]
+#define pin number for left and right motors
+motor_l: [3,4,2] 
+motor_r: [17,27,22]
+# defaut execution time
+exe_time: 3
