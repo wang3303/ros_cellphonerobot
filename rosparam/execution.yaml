@@ -7,4 +7,4 @@ motor: [motor_l, motor_r]
 motor_l: [3,4,2] 
 motor_r: [17,27,22]
 # defaut execution time
-exe_time: 3
+exe_time: 20

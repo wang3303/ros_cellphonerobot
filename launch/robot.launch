@@ -1,5 +1,5 @@
 <launch>
-
+	<node pkg="ros_cellphonerobot" name="image_classify" type="image_classify.py"/>
     <node pkg="ros_cellphonerobot" name="ultrasonic" type="ultrasonic.py">
     	<!-- <remap from="distance" to="dissss"/> -->
     	<rosparam command="load" file="$(find ros_cellphonerobot)/rosparam/ultrasonic_spec.yaml"/>

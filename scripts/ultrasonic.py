@@ -13,7 +13,7 @@ def publish():
         pub = rospy.Publisher("distance", Range, queue_size=10)
         rospy.init_node("ultrasonic", anonymous=True)
 
-        rate = rospy.Rate(2) #10Hz
+        rate = rospy.Rate(4) #4Hz
         msg = Range(radiation_type = 0)
         ## ULTRASOUND = 
         ## IR = 1

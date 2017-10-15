@@ -14,3 +14,5 @@ This will bring all the nodes online.
 ```
 rosrun ros_cellphonerobot key_publisher.py
 ```
+
+### Update Image classification mode

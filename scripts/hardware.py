@@ -58,7 +58,7 @@ class Ultrasonic():
 							)
 	
 	def request_distance(self):
-		self.ultrasonic.wait_for_out_of_range(timeout = 1)
+		#self.ultrasonic.wait_for_out_of_range(timeout = 0.1)
 		return self.ultrasonic.distance
 		
 class Servo():
