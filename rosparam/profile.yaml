@@ -1,0 +1,10 @@
+actiondic: {w: forward, s: stop, a: left, d: right}
+# {event name(published): function,...} 
+alert_distance: 20
+# motors [IN1, IN2, EN]
+motor: {motor_l: [3,4,2], motor_r: [17,27,22],dutycycle: 20}
+# defaut execution time
+exe_time: 20
+# Ultrasonic[max_distance(cm),min_distance(cm) pin:[echo=17, trigger=18]]
+ultrasonic: {max_distance: 400, min_distance: 2, pin: [17,18]}
+

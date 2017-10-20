@@ -55,9 +55,9 @@ def abort(msg):
 if __name__ == '__main__':
     try:
         rospy.init_node('execution')
-        mindistance =rospy.get_param('~alert_distance')
+        mindistance =rospy.get_param('/alert_distance')
         # Set default time
-        default_exe_time = rospy.Duration.from_sec(rospy.get_param('~exe_time'))
+        default_exe_time = rospy.Duration.from_sec(rospy.get_param('/exe_time'))
         act_client = actionlib.SimpleActionClient('robot', ExecutionAction)
         rospy.Subscriber('action', String, actioncb)
         rospy.Subscriber('sensor_reading', Sensors, abort)
