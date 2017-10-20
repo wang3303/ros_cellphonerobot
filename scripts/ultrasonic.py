@@ -29,9 +29,10 @@ def publish():
 if __name__ == '__main__':
     try:
         rospy.init_node('ultrasonic', anonymous=True)
-        min_range = rospy.get_param('~min_ultrasonic_distance')
-        max_range = rospy.get_param("~max_ultrasonic_distance")
-        sensor = Ultrasonic(max_distance=max_range, threshold_distance =0.01, echo=17, trigger=18)
+        min_range = rospy.get_param('~min_distance')
+        max_range = rospy.get_param("~max_distance")
+        pinnumber = rospy.get_param("~pin")
+        sensor = Ultrasonic(max_distance=max_range, threshold_distance =0.01, echo=pinnumber[0], trigger=pinnumber[1])
         publish()
     except rospy.ROSInterruptException:
         rospy.logerr("Interrupted")

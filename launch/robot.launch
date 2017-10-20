@@ -1,16 +1,15 @@
 <launch>
+    <rosparam command="load" file="$(find ros_cellphonerobot)/rosparam/profile.yaml"/>
 	<node pkg="ros_cellphonerobot" name="image_classify" type="image_classify.py"/>
     <node pkg="ros_cellphonerobot" name="ultrasonic" type="ultrasonic.py">
-    	<!-- <remap from="distance" to="dissss"/> -->
-    	<rosparam command="load" file="$(find ros_cellphonerobot)/rosparam/ultrasonic_spec.yaml"/>
+        <!-- <remap from="distance" to="dissss"/> -->	
     </node>
     
     <node pkg="ros_cellphonerobot" name="sensor_hub" type="sensor_hub.py"/>
 	<node pkg="ros_cellphonerobot" name="exe_server" type="exe_server.py" output="screen" />
-    <node pkg="ros_cellphonerobot" name="execution" type="execution.py" output="screen">
-    	<rosparam command="load" file="$(find ros_cellphonerobot)/rosparam/execution.yaml"/>
-    </node>
-<!--     <node pkg="ros_cellphonerobot" name="key_publisher" type="key_publisher.py"/>
- --> 
+    <node pkg="ros_cellphonerobot" name="execution" type="execution.py" output="screen"/>
+    <!--	
+     <node pkg="ros_cellphonerobot" name="key_publisher" type="key_publisher.py"/>
+    --> 
 
 </launch>

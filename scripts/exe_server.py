@@ -10,17 +10,17 @@ class Execution(object):
     _feedback = ExecutionFeedback()
     _result = ExecutionResult()
     t0 = time.time()
-    motor = rospy.get_param("/execution/motor")
+    motor = rospy.get_param("/motor")
     # TODO This is based on the assumption that there are two wheels
-    motor_l_pin = rospy.get_param('/execution/'+motor[0])
-    motor_r_pin = rospy.get_param('/execution/'+motor[1])
+    motor_l_pin = motor['motor_l']#rospy.get_param('/execution/'+motor[0])
+    motor_r_pin = motor['motor_r']#rospy.get_param('/execution/'+motor[1])
     motor_l = DCmotor(motor_l_pin[0],motor_l_pin[1],motor_l_pin[2])
     motor_r = DCmotor(motor_r_pin[0],motor_r_pin[1],motor_r_pin[2])
         
 
     def forward(self,):
-        self.motor_l.forward(20)
-        self.motor_r.forward(20)
+        self.motor_l.forward(self.dutycycle)
+        self.motor_r.forward(self.dutycycle)
         rospy.loginfo('set dutycycle of +20 for both motors')
 
     def stop(self,):
@@ -28,18 +28,19 @@ class Execution(object):
         self.motor_r.close_channel()
 
     def left(self,):
-        self.motor_l.reverse(20)
-        self.motor_r.forward(20)
+        self.motor_l.reverse(self.dutycycle)
+        self.motor_r.forward(self.dutycycle)
 
     def right(self,):
-        self.motor_l.forward(20)
-        self.motor_r.reverse(20)
+        self.motor_l.forward(self.dutycycle)
+        self.motor_r.reverse(self.dutycycle)
 
-    def __init__(self, name):
+    def __init__(self, name, dutycycle):
+        self.dutycycle = dutycycle
         self.actionname = name
         self.act_server = actionlib.SimpleActionServer('robot', ExecutionAction, execute_cb = self.cb, auto_start = False)
         self.act_server.start()
-        self.actiondic = rospy.get_param("/execution/actiondic")
+        self.actiondic = rospy.get_param("/actiondic")
         self.functiondic = {
             'forward': self.forward,
             'stop': self.stop,
@@ -83,10 +84,10 @@ class Execution(object):
 if __name__ == '__main__':
     try:
         rospy.init_node('exe_server')
-
+        dutycycle = rospy.get_param('/motor/dutycycle')
 
         
-        server = Execution(rospy.get_name())
+        server = Execution(rospy.get_name(),dutycycle)
         rospy.spin()
     except rospy.ROSInterruptException:
         pass

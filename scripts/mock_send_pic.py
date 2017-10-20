@@ -43,7 +43,7 @@ import cv2
 
 def talker():
     bridge = CvBridge()
-    img = cv2.imread("apple.jpeg")
+    img = cv2.imread("/home/pi/plane.jpeg")
     pub = rospy.Publisher('image', Image ,queue_size = 10)
     rospy.init_node('mock_send_pic', anonymous=True)
     rate = rospy.Rate(0.3)
