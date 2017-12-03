@@ -34,5 +34,6 @@ $ rosrun ros_cellphonerobot key_publisher.py
 ```
 
 ## Image classification
-
+* Install [Tensorflow](https://github.com/samjabrahams/tensorflow-on-raspberry-pi)
+* Uncomment the node `` in `ros_cellphonerobot/`.
 You can publish images to topic `` 
