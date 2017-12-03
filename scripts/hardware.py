@@ -1,9 +1,16 @@
+'''
+Class for controlling DC motor, Servo, and HC-SR04 Ultrasonic Sensor
+Please calibrate your servo before using the class.
+'''
+
 import sys
 import time
 import RPi.GPIO as GPIO
 from gpiozero import DistanceSensor
 from gpiozero import AngularServo
 GPIO.setmode(GPIO.BCM)
+
+
 
 class DCmotor:
 	def __init__(self,INA1,INA2,EN):
@@ -41,7 +48,7 @@ class DCmotor:
 		GPIO.output(self._INA2, True)
 		self.change_duty_cycle(dutycycle)
 
-
+	# Call this function to release the pins
 	def cleanup(self):
 		self.pwm.stop()
 		GPIO.cleanup([self._INA2,self._INA1,self._EN])
@@ -58,7 +65,6 @@ class Ultrasonic():
 							)
 	
 	def request_distance(self):
-		#self.ultrasonic.wait_for_out_of_range(timeout = 0.1)
 		return self.ultrasonic.distance
 		
 class Servo():
@@ -82,14 +88,7 @@ def main():
 		print sensor.request_distance()*100
 		i+=1
 	GPIO.cleanup()
-	# motor = DCmotor(3,4,2)
-	# motor.reverse(0,1)
-	# motor.close_channel()
-	# try:
-	# 	while 1:
-	# 		pass
-	# except:
-	# 	GPIO.cleanup()
+
 
 if __name__ == '__main__':
 	main()

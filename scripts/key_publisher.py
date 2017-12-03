@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+'''
+This script will publish keys to Topic /action.
+For instance, if you press key 'w' on the keyboard,
+you shall see the a (String) 'w' published on /action.
+'''
 import sys, select, tty, termios
 import rospy
 from std_msgs.msg import String

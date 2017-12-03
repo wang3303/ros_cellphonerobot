@@ -18,7 +18,13 @@ from cv_bridge import CvBridge, CvBridgeError
 import numpy as np
 from six.moves import urllib
 import tensorflow as tf
-
+'''
+This script provides a node to converting image published on 'image' to pretrained categories
+and publish messages to 'inception'. Note that it will take some time to download the network 
+and weights the first time you run it. 
+This script is modified from tutorial on Tensorflow official website.
+https://www.tensorflow.org/tutorials/image_recognition
+'''
 FLAGS = None
 
 # pylint: disable=line-too-long

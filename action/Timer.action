@@ -1,8 +1,0 @@
-duration time_to_wait
-string action
----
-duration time_elapsed
-uint32 update
----
-duration time_elapsed
-duration time_remain

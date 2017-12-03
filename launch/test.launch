@@ -1,4 +1,0 @@
-<launch>
-    <rosparam command="load" file="$(find ros_cellphonerobot)/rosparam/profile.yaml"/>
-
-</launch>

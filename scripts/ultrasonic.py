@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-
+"""
+This node is for reading distance from a ultrasonic sensor and publishing to /ultrasonic.
+"""
 import rospy
 from sensor_msgs.msg import Range
 from random import random
