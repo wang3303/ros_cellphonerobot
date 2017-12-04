@@ -2,7 +2,7 @@
 Welcome to cellphone robot project! This is part of [Project Cellphone robot](https://github.com/AGKhalil/Cellphone_Robot/wiki) and is mainly focused on the some extended functionalities, hardware control, as well as  message-passing between the android application and the ROS system resided on any linux system. In our project we decide to use [Raspberry Pi 3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/), a single-board computer with considerate computation power. Read [wiki](https://github.com/wang3303/ros_cellphonerobot/wiki) for concrete details.
 ## Step 1: Install ROS
 * Follow the [link](http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment) and configure the ROS environment. For instance you can build the catkin works space in `~/catkin_ws`.
-* Type the following line in your terminal. Make sure 
+* Type the following line in your terminal. 
 ```
 $ cd ~/catkin_ws/src
 $ git clone https://github.com/wang3303/ros_cellphonerobot.git
