@@ -24,7 +24,7 @@ This will bring all the nodes online.
 
 ## Step 3: Change profiles in rosparam and set up your robot
 
-You can modify the profile for your robot in `/ros_cellphonerobot/rosparam/profile.yaml`. The explanation for this file could be found [here]()
+You can modify the profile for your robot in `/ros_cellphonerobot/rosparam/profile.yaml`. The explanation for this file could be found [here](https://github.com/wang3303/ros_cellphonerobot/wiki/Resume).
 
 ## Step 4: Action publishing
 
