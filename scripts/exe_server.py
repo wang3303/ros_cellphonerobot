@@ -20,10 +20,16 @@ class Execution(object):
     t0 = time.time()
     motor = rospy.get_param("/motor")
     # TODO This is based on the assumption that there are two wheels
-    motor_l_pin = motor['motor_l']#rospy.get_param('/execution/'+motor[0])
-    motor_r_pin = motor['motor_r']#rospy.get_param('/execution/'+motor[1])
-    motor_l = DCmotor(motor_l_pin[0],motor_l_pin[1],motor_l_pin[2])
-    motor_r = DCmotor(motor_r_pin[0],motor_r_pin[1],motor_r_pin[2])
+    motor_rf_pin = motor['motor_rf']#rospy.get_param('/execution/'+motor[0])
+    motor_lf_pin = motor['motor_lf']#rospy.get_param('/execution/'+motor[1])
+    motor_rb_pin = motor['motor_rb']#rospy.get_param('/execution/'+motor[2])
+    motor_lb_pin = motor['motor_lb']#rospy.get_param('/execution/'+motor[3])
+    
+    motor_rf = DCmotor(motor_rf_pin[0],motor_rf_pin[1],motor_rf_pin[2])
+    motor_lf = DCmotor(motor_lf_pin[0],motor_lf_pin[1],motor_lf_pin[2])
+    motor_rb = DCmotor(motor_rb_pin[0],motor_rb_pin[1],motor_rb_pin[2])
+    motor_lb = DCmotor(motor_lb_pin[0],motor_lb_pin[1],motor_lb_pin[2])
+
         
     # TODO Define the self defined functions mentioned in profile.yaml as below
     def freestyle(self,):
@@ -37,22 +43,37 @@ class Execution(object):
         self.forward()
 
     def forward(self,):
-        self.motor_l.forward(self.dutycycle)
-        self.motor_r.forward(self.dutycycle)
+        self.motor_rf.forward(self.dutycycle)
+        self.motor_lf.reverse(self.dutycycle)
+        
+        self.motor_rb.forward(self.dutycycle)
+        self.motor_lb.reverse(self.dutycycle)
+        
         rospy.loginfo('set dutycycle of +20 for both motors')
 
     def stop(self,):
-        self.motor_l.close_channel()
-        self.motor_r.close_channel()
+        self.motor_rf.close_channel()
+        self.motor_lf.close_channel()
+        
+        self.motor_rb.close_channel()
+        self.motor_lb.close_channel()
 
     def left(self,):
-        self.motor_l.reverse(self.dutycycle)
-        self.motor_r.forward(self.dutycycle)
+        self.motor_rf.forward(self.dutycycle)
+        self.motor_lf.forward(self.dutycycle)
+        
+        self.motor_rb.forward(self.dutycycle)
+        self.motor_lb.forward(self.dutycycle)
+        
         time.sleep(randint(0,2))
 
     def right(self,):
-        self.motor_l.forward(self.dutycycle)
-        self.motor_r.reverse(self.dutycycle)
+        self.motor_rf.reverse(self.dutycycle)
+        self.motor_lf.reverse(self.dutycycle)
+        
+        self.motor_rb.reverse(self.dutycycle)
+        self.motor_lb.reverse(self.dutycycle)
+        
         time.sleep(randint(0,2))
 
     def __init__(self, name, dutycycle):
@@ -76,7 +97,7 @@ class Execution(object):
             self.actiondic[k] = self.functiondic[v]
             self.command.append(k)
         rospy.loginfo(self.actiondic)
-        rospy.loginfo('set pin number for motors'+str(self.motor_l_pin)+str(self.motor_r_pin))
+        #rospy.loginfo('set pin number for motors'+str(self.motor_l_pin)+str(self.motor_r_pin))
 
     def cb(self, goal):
         self.t0 = time.time()
