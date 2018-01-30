@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   geometry_msgs
   tf
+  nav_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -138,6 +139,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/ros_cellphonerobot_node.cpp)
 add_executable(tf_broadcaster scripts/tf_broadcaster.cpp)
+add_executable(odom_broadcaster scripts/odom_broadcaster.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -154,6 +156,7 @@ add_executable(tf_broadcaster scripts/tf_broadcaster.cpp)
 #   ${catkin_LIBRARIES}
 # )
 target_link_libraries(tf_broadcaster ${catkin_LIBRARIES})
+target_link_libraries(odom_broadcaster ${catkin_LIBRARIES})
 
 #############
 ## Install ##
