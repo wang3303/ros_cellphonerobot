@@ -13,13 +13,17 @@ GPIO.setmode(GPIO.BCM)
 
 
 class DCmotor:
-	def __init__(self,INA1,INA2,EN):
+	def __init__(self,INA1,INA2,EN,ENCODA,ENCODB):
 		self._INA1 = INA1
 		self._INA2 = INA2
 		self._EN = EN
+		self._ENCODA = ENCODA
+		self._ENCODB = ENCODB
 		GPIO.setup(self._EN, GPIO.OUT)
 		GPIO.setup(self._INA1, GPIO.OUT)
 		GPIO.setup(self._INA2, GPIO.OUT)
+		GPIO.setup(self._ENCODA, GPIO.IN)
+		GPIO.setup(self._ENCODB, GPIO.IN)
 		self.sleeptime=1
 		self.pwm = GPIO.PWM(self._EN, 50) #50Hz
 		self.pwm.start(0)

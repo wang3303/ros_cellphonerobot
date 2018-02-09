@@ -18,10 +18,8 @@ def callback(data):
     
     # TODO Convert Twist data to motor commands after encoders are installed 
     
-    motor_rf.forward(70)
-    motor_lf.reverse(70)
-    motor_rb.forward(70)
-    motor_lb.reverse(70)
+    motor_r.forward(70)
+    motor_l.reverse(70)
 
 def listener():
 	rospy.init_node('base_controller')
@@ -30,13 +28,11 @@ def listener():
 	
 if __name__ == '__main__':
 	motor = rospy.get_param("/motor")
-	motor_rf_pin = motor['motor_rf'] #rospy.get_param('/execution/'+motor[0])
-	motor_lf_pin = motor['motor_lf'] #rospy.get_param('/execution/'+motor[1])
-	motor_rb_pin = motor['motor_rb'] #rospy.get_param('/execution/'+motor[2])
-	motor_lb_pin = motor['motor_lb'] #rospy.get_param('/execution/'+motor[3])
-	motor_rf = DCmotor(motor_rf_pin[0],motor_rf_pin[1],motor_rf_pin[2])
-	motor_lf = DCmotor(motor_lf_pin[0],motor_lf_pin[1],motor_lf_pin[2])
-	motor_rb = DCmotor(motor_rb_pin[0],motor_rb_pin[1],motor_rb_pin[2])
-	motor_lb = DCmotor(motor_lb_pin[0],motor_lb_pin[1],motor_lb_pin[2])
-	
+	motor_r_pin = motor['motor_r'] #rospy.get_param('/execution/'+motor[0])
+	motor_l_pin = motor['motor_l'] #rospy.get_param('/execution/'+motor[1])
+	motor_r = DCmotor(motor_r_pin[0],motor_r_pin[1],motor_r_pin[2],motor_r_pin[3],motor_r_pin[4])
+	motor_l = DCmotor(motor_l_pin[0],motor_l_pin[1],motor_l_pin[2],motor_l_pin[3],motor_l_pin[4])
+
+	rospy.loginfo("Right EncoderA reading %s", motor_r_pin[3])
+
 	listener()
