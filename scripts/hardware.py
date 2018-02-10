@@ -8,6 +8,7 @@ import time
 import RPi.GPIO as GPIO
 from gpiozero import DistanceSensor
 from gpiozero import AngularServo
+from gpiozero import InputDevice
 GPIO.setmode(GPIO.BCM)
 
 
@@ -17,13 +18,11 @@ class DCmotor:
 		self._INA1 = INA1
 		self._INA2 = INA2
 		self._EN = EN
-		self._ENCODA = ENCODA
-		self._ENCODB = ENCODB
+		self._ENCODA = InputDevice(ENCODA,pull_up=True)
+		self._ENCODB = InputDevice(ENCODB,pull_up=True)
 		GPIO.setup(self._EN, GPIO.OUT)
 		GPIO.setup(self._INA1, GPIO.OUT)
 		GPIO.setup(self._INA2, GPIO.OUT)
-		GPIO.setup(self._ENCODA, GPIO.IN)
-		GPIO.setup(self._ENCODB, GPIO.IN)
 		self.sleeptime=1
 		self.pwm = GPIO.PWM(self._EN, 50) #50Hz
 		self.pwm.start(0)
@@ -51,6 +50,9 @@ class DCmotor:
 		GPIO.output(self._INA1, False)
 		GPIO.output(self._INA2, True)
 		self.change_duty_cycle(dutycycle)
+	
+	def request_encoder_readings(self):
+		return self._ENCODA.is_active, self._ENCODB.is_active
 
 	# Call this function to release the pins
 	def cleanup(self):

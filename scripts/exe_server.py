@@ -25,7 +25,7 @@ class Execution(object):
     
     motor_r = DCmotor(motor_r_pin[0],motor_r_pin[1],motor_r_pin[2],motor_r_pin[3],motor_r_pin[4])
     motor_l = DCmotor(motor_l_pin[0],motor_l_pin[1],motor_l_pin[2],motor_l_pin[3],motor_l_pin[4])
-        
+            
     # TODO Define the self defined functions mentioned in profile.yaml as below
     def freestyle(self,):
         i = randint(0,1)
