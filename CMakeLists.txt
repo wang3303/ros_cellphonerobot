@@ -17,7 +17,6 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   tf
   nav_msgs
-  differential_drive
 )
 
 ## System dependencies are found with CMake's conventions
