@@ -19,15 +19,21 @@ def publish():
 		pub = rospy.Publisher('ticks', Bool, queue_size=10)
 		
 		rate = rospy.Rate(4) #4Hz
-		ticks_left = Bool()
-		ticks_right = Bool()
-		ticks_left.data = get_left_ticks()
-		ticks_right.data = get_right_ticks()
-		pub.publish(ticks_left)
-		pub.publish(ticks_right)
+		ticks_left_A = Bool()
+		ticks_left_B = Bool()
+		ticks_right_A = Bool()
+		ticks_right_B = Bool()
+		ticks_left_A.data, ticks_left_B.data = get_left_ticks()
+		ticks_right_A.data, ticks_right_B.data = get_right_ticks()
+		pub.publish(ticks_left_A)
+		pub.publish(ticks_left_B)
+		pub.publish(ticks_right_A)
+		pub.publish(ticks_right_B)
 		rate.sleep()
-		rospy.loginfo("Left encoder %s", ticks_left.data)
-		rospy.loginfo("Right encoder %s", ticks_right.data)
+		rospy.loginfo("Left encoder A = %s", ticks_left_A.data)
+		rospy.loginfo("Left encoder B = %s", ticks_left_B.data)
+		rospy.loginfo("Right encoder A = %s", ticks_right_A.data)
+		rospy.loginfo("Right encoder B = %s", ticks_right_B.data)
 
 
 if __name__ == '__main__':
