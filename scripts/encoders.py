@@ -4,37 +4,33 @@ This node is for reading encoder ticks and publishes them to /ticks.
 """
 import rospy
 from std_msgs.msg import Bool
+from std_msgs.msg import Int32
 from random import random
 from hardware import DCmotor
 
-def get_left_ticks():
-    return motor_l.request_encoder_readings()
-
 def get_right_ticks():
-    return motor_r.request_encoder_readings()
+	return motor_r.request_encoder_ticks()
+
+def get_left_ticks():
+	return motor_l.request_encoder_ticks()
 
 def publish():
     while not rospy.is_shutdown():
 		rospy.init_node("encoders", anonymous=True)
-		pub = rospy.Publisher('ticks', Bool, queue_size=10)
+		pub_tick = rospy.Publisher('ticks', Int32, queue_size=10)
 		
 		rate = rospy.Rate(4) #4Hz
-		ticks_left_A = Bool()
-		ticks_left_B = Bool()
-		ticks_right_A = Bool()
-		ticks_right_B = Bool()
-		ticks_left_A.data, ticks_left_B.data = get_left_ticks()
-		ticks_right_A.data, ticks_right_B.data = get_right_ticks()
-		pub.publish(ticks_left_A)
-		pub.publish(ticks_left_B)
-		pub.publish(ticks_right_A)
-		pub.publish(ticks_right_B)
+		right_ticks = Int32()
+		left_ticks = Int32()
+		right_ticks.data = get_right_ticks()
+		left_ticks.data = get_left_ticks()
+		
+		pub_tick.publish(left_ticks)
+		pub_tick.publish(right_ticks)
+		
 		rate.sleep()
-		rospy.loginfo("Left encoder A = %s", ticks_left_A.data)
-		rospy.loginfo("Left encoder B = %s", ticks_left_B.data)
-		rospy.loginfo("Right encoder A = %s", ticks_right_A.data)
-		rospy.loginfo("Right encoder B = %s", ticks_right_B.data)
-
+		rospy.loginfo("Left encoder A = %s", left_ticks.data)
+		rospy.loginfo("Right encoder A = %s", right_ticks.data)
 
 if __name__ == '__main__':
     try:

@@ -11,21 +11,23 @@ from gpiozero import AngularServo
 from gpiozero import InputDevice
 GPIO.setmode(GPIO.BCM)
 
-
-
 class DCmotor:
 	def __init__(self,INA1,INA2,EN,ENCODA,ENCODB):
 		self._INA1 = INA1
 		self._INA2 = INA2
 		self._EN = EN
-		self._ENCODA = InputDevice(ENCODA,pull_up=True)
-		self._ENCODB = InputDevice(ENCODB,pull_up=True)
+		self._ENCODA = ENCODA
+		self._ENCODB = ENCODB
+		GPIO.setup(self._ENCODA, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+		GPIO.setup(self._ENCODB, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+		self._ticks = 0
 		GPIO.setup(self._EN, GPIO.OUT)
 		GPIO.setup(self._INA1, GPIO.OUT)
 		GPIO.setup(self._INA2, GPIO.OUT)
 		self.sleeptime=1
 		self.pwm = GPIO.PWM(self._EN, 50) #50Hz
 		self.pwm.start(0)
+		GPIO.add_event_detect(self._ENCODA, GPIO.BOTH, callback=self.update_encoder_ticks)
 		
 	def change_duty_cycle(self,duty=0):
 		GPIO.output(self._EN, True)
@@ -52,7 +54,13 @@ class DCmotor:
 		self.change_duty_cycle(dutycycle)
 	
 	def request_encoder_readings(self):
-		return self._ENCODA.is_active, self._ENCODB.is_active
+		return GPIO.input(self._ENCODA), GPIO.input(self._ENCODB)
+	
+	def update_encoder_ticks(self, channel):
+		self._ticks += 1
+		
+	def request_encoder_ticks(self):
+		return self._ticks
 
 	# Call this function to release the pins
 	def cleanup(self):
