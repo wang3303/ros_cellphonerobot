@@ -27,7 +27,7 @@ class DCmotor:
 		self.sleeptime=1
 		self.pwm = GPIO.PWM(self._EN, 50) #50Hz
 		self.pwm.start(0)
-		GPIO.add_event_detect(self._ENCODA, GPIO.BOTH, callback=self.update_encoder_ticks)
+		GPIO.add_event_detect(self._ENCODA, GPIO.RISING, callback=self.update_encoder_ticks)
 		
 	def change_duty_cycle(self,duty=0):
 		GPIO.output(self._EN, True)

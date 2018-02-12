@@ -17,7 +17,8 @@ def get_left_ticks():
 def publish():
     while not rospy.is_shutdown():
 		rospy.init_node("encoders", anonymous=True)
-		pub_tick = rospy.Publisher('ticks', Int32, queue_size=10)
+		pub_left = rospy.Publisher('lwheel', Int32, queue_size=10)
+		pub_right = rospy.Publisher('rwheel', Int32, queue_size=10)
 		
 		rate = rospy.Rate(4) #4Hz
 		right_ticks = Int32()
@@ -25,8 +26,8 @@ def publish():
 		right_ticks.data = get_right_ticks()
 		left_ticks.data = get_left_ticks()
 		
-		pub_tick.publish(left_ticks)
-		pub_tick.publish(right_ticks)
+		pub_left.publish(left_ticks)
+		pub_right.publish(right_ticks)
 		
 		rate.sleep()
 		rospy.loginfo("Left encoder A = %s", left_ticks.data)

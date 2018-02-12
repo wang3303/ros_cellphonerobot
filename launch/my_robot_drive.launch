@@ -2,40 +2,39 @@
   <!-- change this next line to include the launch file for your robot's hardware drivers: -->
   <include file="$(find ros_cellphonerobot)/launch/robot.launch" />
 
-  <rosparam param="ticks_meter">70</rosparam>
+  <rosparam param="ticks_meter">4461</rosparam>
 
-  <node pkg="differential_drive" type="pid_velocity.py" name="lpid_velocity">
+  <node pkg="ros_cellphonerobot" type="pid_velocity.py" name="lpid_velocity">
       <remap from="wheel" to="lwheel"/>
       <remap from="motor_cmd" to="lmotor_cmd"/>
       <remap from="wheel_vtarget" to="lwheel_vtarget"/>
       <remap from="wheel_vel" to="lwheel_vel"/>
-      <rosparam param="Kp">200</rosparam>
-      <rosparam param="Ki">200</rosparam>
+      <rosparam param="Kp">0</rosparam>
+      <rosparam param="Ki">0</rosparam>
       <rosparam param="Kd">0</rosparam>
-      <rosparam param="out_min">-255</rosparam>
-      <rosparam param="out_max">255</rosparam>
+      <rosparam param="out_min">0</rosparam>
+      <rosparam param="out_max">100</rosparam>
       <rosparam param="rate">30</rosparam>
       <rosparam param="timeout_ticks">4</rosparam>
-      <rosparam param="rolling_pts">5</rosparam>
+      <rosparam param="rolling_pts">2</rosparam>
   </node>
-  <node pkg="differential_drive" type="pid_velocity.py" name="rpid_velocity">
+  <node pkg="ros_cellphonerobot" type="pid_velocity.py" name="rpid_velocity">
       <remap from="wheel" to="rwheel"/>
       <remap from="motor_cmd" to="rmotor_cmd"/>
       <remap from="wheel_vtarget" to="rwheel_vtarget"/>
       <remap from="wheel_vel" to="rwheel_vel"/>
-      <rosparam param="Kp">200</rosparam>
-      <rosparam param="Ki">200</rosparam>
+      <rosparam param="Kp">0</rosparam>
+      <rosparam param="Ki">0</rosparam>
       <rosparam param="Kd">0</rosparam>
-      <rosparam param="out_min">-255</rosparam>
-      <rosparam param="out_max">255</rosparam>
+      <rosparam param="out_min">0</rosparam>
+      <rosparam param="out_max">0</rosparam>
       <rosparam param="rate">30</rosparam>
       <rosparam param="timeout_ticks">4</rosparam>
-      <rosparam param="rolling_pts">5</rosparam>
+      <rosparam param="rolling_pts">2</rosparam>
   </node>
 
-  <node pkg="differential_drive" type="virtual_joystick.py" name="virtual_joystick" output="screen"/>
-  <node pkg="differential_drive" type="twist_to_motors.py" name="twist_to_motors" output="screen">
-    <rosparam param="base_width">0.245</rosparam>
+  <node pkg="ros_cellphonerobot" type="twist_to_motors.py" name="twist_to_motors" output="screen">
+    <rosparam param="base_width">0.185</rosparam>
   </node>
 
 </launch>
