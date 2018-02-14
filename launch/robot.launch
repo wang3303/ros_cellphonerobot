@@ -1,15 +1,15 @@
 <launch>
     <machine
         name="pharaoh"
-        address="10.186.132.105"
+        address="pharaoh-desktop"
         default="true"
         user="pharaoh"
     />
     <machine
         name="udacity"
-        address="10.186.107.112"
+        address="udacity"
         user="robond"
-        env-loader="~/catkin_workspace/devel/remote_env_loader.sh"
+        env-loader="/home/pharaoh/catkin_workspace/devel/remote_env_loader.sh"
     />
 
     <node machine="pharaoh" pkg="basics" name="topic_publisher" type="topic_publisher.py"/>
