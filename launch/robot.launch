@@ -1,75 +1,31 @@
 <launch>
     <machine
         name="pharaoh"
-        address="pharaoh-desktop"
+        address="192.168.1.101"
         default="true"
         user="pharaoh"
     />
     <machine
         name="udacity"
-        address="udacity"
+        address="192.168.1.110"
         user="robond"
         env-loader="/home/pharaoh/catkin_workspace/devel/remote_env_loader.sh"
     />
 
-    <node machine="pharaoh" pkg="basics" name="topic_publisher" type="topic_publisher.py"/>
+	<rosparam command="load" file="$(find ros_cellphonerobot)/rosparam/profile.yaml"/>
 
-    <!--<rosparam command="load" file="$(find ros_cellphonerobot)/rosparam/profile.yaml"/>
-
-    <node machine="pharaoh-desktop" pkg="ros_cellphonerobot" name="ultrasonic" type="ultrasonic.py">
-    </node>
-
-    <node machine="pharaoh-desktop" pkg="basics" name="topic_publisher" type="topic_publisher.py"/>
+    <node machine="pharaoh-desktop" pkg="ros_cellphonerobot" name="ultrasonic" type="ultrasonic.py"/>
     <node machine="pharaoh-desktop" pkg="ros_cellphonerobot" name="sensor_hub" type="sensor_hub.py"/>
-    <node machine="pharaoh-desktop" pkg="ros_cellphonerobot" name="exe_server" type="exe_server.py" output="screen" />
+    <node machine="pharaoh-desktop" pkg="ros_cellphonerobot" name="exe_server" type="exe_server.py" output="screen"/>
     <node machine="pharaoh-desktop" pkg="ros_cellphonerobot" name="execution" type="execution.py" output="screen"/>
-    -->
+
+	<group>
+    	<machine name="udacity" address="udacity" default="true" />
+    	<include file="$(find differential_drive)/launch/diff_drive.launch" />
+    </group>
+        
     <!--
-    <node machine="udacity" pkg="ros_cellphonerobot" name="diff_driver_motor" type="diff_driver_motor.py" output="screen"/>
-    <node machine="udacity" pkg="ros_cellphonerobot" type="pid_velocity.py" name="lpid_velocity">
-        <remap from="wheel" to="lwheel"/>
-        <remap from="motor_cmd" to="lmotor_cmd"/>
-        <remap from="wheel_vtarget" to="lwheel_vtarget"/>
-        <remap from="wheel_vel" to="lwheel_vel"/>
-        <rosparam param="Kp">0</rosparam>
-        <rosparam param="Ki">0</rosparam>
-        <rosparam param="Kd">0</rosparam>
-        <rosparam param="out_min">0</rosparam>
-        <rosparam param="out_max">100</rosparam>
-        <rosparam param="rate">30</rosparam>
-        <rosparam param="timeout_ticks">4</rosparam>
-        <rosparam param="rolling_pts">2</rosparam>
-    </node>
-    <node machine="udacity" pkg="ros_cellphonerobot" type="pid_velocity.py" name="rpid_velocity">
-        <remap from="wheel" to="rwheel"/>
-        <remap from="motor_cmd" to="rmotor_cmd"/>
-        <remap from="wheel_vtarget" to="rwheel_vtarget"/>
-        <remap from="wheel_vel" to="rwheel_vel"/>
-        <rosparam param="Kp">0</rosparam>
-        <rosparam param="Ki">0</rosparam>
-        <rosparam param="Kd">0</rosparam>
-        <rosparam param="out_min">0</rosparam>
-        <rosparam param="out_max">0</rosparam>
-        <rosparam param="rate">30</rosparam>
-        <rosparam param="timeout_ticks">4</rosparam>
-        <rosparam param="rolling_pts">2</rosparam>
-    </node>
-    <node machine="udacity" pkg="ros_cellphonerobot" type="twist_to_motors.py" name="twist_to_motors" output="screen">
-        <rosparam param="base_width">0.185</rosparam>
-    </node>
-
-    <param name="robot_description" textfile="$(find my_robot)/my_robot.urdf" />
-    <node pkg="rviz" type="rviz" name="rviz" output="screen"/>
-
-
     <include file="$(find cellphonerobot_nav_stack)/launch/cellphonerobot_nav.launch" />
-
-
-    <node machine="udacity" pkg="ros_cellphonerobot" type="diff_tf.py" name="diff_tf">
-        <rosparam param="rate">8.0</rosparam>
-        <rosparam param="base_width">0.185</rosparam>
-    </node>
-    <node machine="udacity" pkg="ros_cellphonerobot" type="virtual_joystick.py" name="virtual_joystick" output="screen"/>
     -->
 
     <!--
