@@ -1,28 +1,32 @@
 <launch>
-    <machine
-        name="pharaoh"
-        address="192.168.1.101"
-        default="true"
-        user="pharaoh"
-    />
-    <machine
-        name="udacity"
-        address="192.168.1.110"
-        user="robond"
-        env-loader="/home/pharaoh/catkin_workspace/devel/remote_env_loader.sh"
-    />
+	<arg name="host_name" value="$(env ROS_LOCAL_NAME)" />
+	<arg name="host_address" value="$(env ROS_IP)" />
+	<arg name="host_user" value="$(env ROS_LOCAL_USER)" />
+	<arg name="host_default" value="$(env ROS_LOCAL_DEFAULT)" />
+	
+	<arg name="remote_name" value="$(env ROS_REMOTE_NAME)" />
+	<arg name="remote_address" value="$(env ROS_REMOTE_IP)" />
+	<arg name="remote_user" value="$(env ROS_REMOTE_USER)" />
+	<arg name="remote_env_loader" value="$(env ROS_REMOTE_ENV_LOADER)" />
+
+    <machine name="$(arg host_name)" address="$(arg host_address)" default="$(arg host_default)" user="$(arg host_user)" />
+    <machine name="$(arg remote_name)" address="$(arg remote_address)" user="$(arg remote_user)" env-loader="$(arg remote_env_loader)" />
 
 	<rosparam command="load" file="$(find ros_cellphonerobot)/rosparam/profile.yaml"/>
-
-    <node machine="pharaoh-desktop" pkg="ros_cellphonerobot" name="ultrasonic" type="ultrasonic.py"/>
-    <node machine="pharaoh-desktop" pkg="ros_cellphonerobot" name="sensor_hub" type="sensor_hub.py"/>
-    <node machine="pharaoh-desktop" pkg="ros_cellphonerobot" name="exe_server" type="exe_server.py" output="screen"/>
-    <node machine="pharaoh-desktop" pkg="ros_cellphonerobot" name="execution" type="execution.py" output="screen"/>
-
-	<group>
-    	<machine name="udacity" address="udacity" default="true" />
-    	<include file="$(find differential_drive)/launch/diff_drive.launch" />
-    </group>
+	<node machine="$(arg host_name)" pkg="ros_cellphonerobot" name="sensor_hub" type="sensor_hub.py"/>
+	<node machine="$(arg host_name)" pkg="ros_cellphonerobot" name="key_to_twist_ramp" type="key_to_twist_ramp.py"/>
+   
+   	<include file="$(find ros_cellphonerobot)/launch/diff_drive.launch">
+		<arg name="loc_machine_name" value="$(arg host_name)" />
+		<arg name="loc_machine_address" value="$(arg host_address)" />
+		<arg name="loc_machine_user" value="$(arg host_user)" />
+		<arg name="loc_default" value="$(arg host_default)" />
+		
+		<arg name="rem_machine_name" value="$(arg remote_name)" />
+		<arg name="rem_machine_address" value="$(arg remote_address)" />
+		<arg name="rem_machine_user" value="$(arg remote_user)" />
+		<arg name="rem_machine_env_loader" value="$(arg remote_env_loader)" />
+	</include>
         
     <!--
     <include file="$(find cellphonerobot_nav_stack)/launch/cellphonerobot_nav.launch" />
@@ -31,9 +35,6 @@
     <!--
     Uncomment this line to start image classification node.
     <node pkg="ros_cellphonerobot" name="image_classify" type="image_classify.py" output="screen"/>
-    -->
-    <!--
-     <node pkg="ros_cellphonerobot" name="key_publisher" type="key_publisher.py"/>
     --> 
 
 </launch>
