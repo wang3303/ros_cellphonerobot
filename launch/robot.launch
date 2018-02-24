@@ -27,7 +27,10 @@
 		<arg name="rem_machine_user" value="$(arg remote_user)" />
 		<arg name="rem_machine_env_loader" value="$(arg remote_env_loader)" />
 	</include>
-        
+    
+    <include file="$(find ros_cellphonerobot)/launch/localiztion.launch">
+    	<arg name="machine" value="$(arg remote_name)"/>
+    </include>
     <!--
     <include file="$(find cellphonerobot_nav_stack)/launch/cellphonerobot_nav.launch" />
     -->

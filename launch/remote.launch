@@ -1,0 +1,32 @@
+<launch>
+   <machine 
+     name="main-raspberry-pi" 
+     address="pi-desktop" 
+     default="true" 
+     user="pi"
+   />
+  
+  <machine
+    name="Ultrabook"
+    address="Ultrabook"
+    user="michael"
+    env-loader="/home/michael/catkin_ws/devel/remote_env_loader.sh"
+    />
+
+  <node
+    machine="main-raspberry-pi"
+    name="listener"
+    pkg="ros_cellphonerobot"
+    type="listener.py"
+    output="screen"
+  />
+<!-- 
+  <group>
+    
+    <include file="/home/pi/test.launch" />
+  </group> -->
+  <include file="/home/pi/test.launch">
+      <arg name="machine" value="Ultrabook" />
+  </include>
+
+</launch>
