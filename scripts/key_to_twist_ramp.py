@@ -9,9 +9,13 @@ import rospy
 import math
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist
-key_mapping = { 'w': [ 0, 1], 'x': [ 0, -1],
-                'a': [ 1, 0], 'd': [-1,  0],
-                's': [ 0, 0] }
+angular = .6
+key_mapping = { 'w': [ 0, .3], 'x': [ 0, -.3],
+                'a': [ angular, 0], 'd': [-angular,  0],
+                's': [ 0, 0] , 'q': [angular, .3],
+                'e': [-angular,.3], 'c': [-angular, -.3],
+                'z': [angular, -.3]
+                }
 g_twist_pub = None
 g_target_twist = None
 g_last_twist = None
@@ -70,15 +74,15 @@ def fetch_param(name, default):
 if __name__ == '__main__':
     rospy.init_node('keys_to_twist')
     g_last_twist_send_time = rospy.Time.now()
-    g_twist_pub = rospy.Publisher('twist', Twist, queue_size=1)
+    g_twist_pub = rospy.Publisher('cmd_vel', Twist, queue_size=1)
     rospy.Subscriber('action', String, keys_cb)
     g_target_twist = Twist() # initializes to zero
     g_last_twist = Twist()
-    g_vel_scales[0] = fetch_param('~angular_scale', 0.1)
-    g_vel_scales[1] = fetch_param('~linear_scale', 0.1)
+    g_vel_scales[0] = fetch_param('~angular_scale', 1)
+    g_vel_scales[1] = fetch_param('~linear_scale', 1)
     g_vel_ramps[0] = fetch_param('~angular_accel', 1.0)
     g_vel_ramps[1] = fetch_param('~linear_accel', 1.0)
-    rate = rospy.Rate(20)
+    rate = rospy.Rate(50)
     while not rospy.is_shutdown():
         send_twist()
         rate.sleep()

@@ -1,3 +1,5 @@
+<?xml version="1.0"?>
+
 <launch>
 	<arg name="host_name" value="$(env ROS_LOCAL_NAME)" />
 	<arg name="host_address" value="$(env ROS_IP)" />
@@ -10,31 +12,36 @@
 	<arg name="remote_env_loader" value="$(env ROS_REMOTE_ENV_LOADER)" />
 
     <machine name="$(arg host_name)" address="$(arg host_address)" default="$(arg host_default)" user="$(arg host_user)" />
-    <machine name="$(arg remote_name)" address="$(arg remote_address)" user="$(arg remote_user)" env-loader="$(arg remote_env_loader)" />
+    <machine name="$(arg remote_name)" address="$(arg remote_address)" user="$(arg remote_user)" env-loader="$(arg remote_env_loader)" password="q1w2e3r4"/>
 
+<!-- load parameters -->
 	<rosparam command="load" file="$(find ros_cellphonerobot)/rosparam/profile.yaml"/>
-	<node machine="$(arg host_name)" pkg="ros_cellphonerobot" name="sensor_hub" type="sensor_hub.py"/>
-	<node machine="$(arg host_name)" pkg="ros_cellphonerobot" name="key_to_twist_ramp" type="key_to_twist_ramp.py"/>
-   
-   	<include file="$(find ros_cellphonerobot)/launch/diff_drive.launch">
-		<arg name="loc_machine_name" value="$(arg host_name)" />
-		<arg name="loc_machine_address" value="$(arg host_address)" />
-		<arg name="loc_machine_user" value="$(arg host_user)" />
-		<arg name="loc_default" value="$(arg host_default)" />
-		
-		<arg name="rem_machine_name" value="$(arg remote_name)" />
-		<arg name="rem_machine_address" value="$(arg remote_address)" />
-		<arg name="rem_machine_user" value="$(arg remote_user)" />
-		<arg name="rem_machine_env_loader" value="$(arg remote_env_loader)" />
-	</include>
-        
-    <!--
-    <include file="$(find cellphonerobot_nav_stack)/launch/cellphonerobot_nav.launch" />
-    -->
+<!-- <node machine="$(arg host_name)" pkg="ros_cellphonerobot" name="sensor_hub" type="sensor_hub.py"/> -->
 
-    <!--
-    Uncomment this line to start image classification node.
-    <node pkg="ros_cellphonerobot" name="image_classify" type="image_classify.py" output="screen"/>
-    --> 
+<!-- provide key control -->
+<node machine="$(arg host_name)" pkg="ros_cellphonerobot" name="key_to_twist_ramp" type="key_to_twist_ramp.py"/>
+
+<!-- provide laser tf 
+	<node pkg="tf" type="static_transform_publisher" name="base_frame_laser" args="0 0 0 0 0 0 /base_link /laser 5"/>
+-->
+<!-- launch lidar -->
+	<node pkg="xv_11_laser_driver" type="neato_laser_publisher" name="xv_11_node">
+	    <param name="port" value="/dev/ttyACM0"/>
+	    <param name="firmware_version" value="2"/>
+	    <param name="frame_id" value="laser"/>
+  	</node>
+
+<!-- launch hardware -->
+	<include file="$(find ros_arduino_python)/launch/arduino.launch"/>
+  
+<!-- launch slam -->
+  	<include file="$(find ros_cellphonerobot)/launch/mapping_default.launch"/>
+  	<include file="$(find hector_geotiff)/launch/geotiff_mapper.launch"/>
+
+<!-- launch localization -->
+	<include file="$(find ros_cellphonerobot)/launch/localization.launch"/>
+
+<!-- launch navigation -->
+	<include file="$(find cellphonerobot_nav_stack)/launch/move_base.launch"/>
 
 </launch>
