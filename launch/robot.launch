@@ -18,8 +18,9 @@
 	<rosparam command="load" file="$(find ros_cellphonerobot)/rosparam/profile.yaml"/>
 <!-- <node machine="$(arg host_name)" pkg="ros_cellphonerobot" name="sensor_hub" type="sensor_hub.py"/> -->
 
-<!-- provide key control -->
+<!-- provide key control 
 <node machine="$(arg host_name)" pkg="ros_cellphonerobot" name="key_to_twist_ramp" type="key_to_twist_ramp.py"/>
+-->
 
 <!-- provide laser tf 
 	<node pkg="tf" type="static_transform_publisher" name="base_frame_laser" args="0 0 0 0 0 0 /base_link /laser 5"/>
